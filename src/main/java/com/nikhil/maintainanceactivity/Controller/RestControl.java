@@ -5,6 +5,7 @@ import com.nikhil.maintainanceactivity.service.*;
 import com.nikhil.maintainanceactivity.util.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
+import org.springframework.security.access.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,7 +26,15 @@ public class RestControl {
     public ResponseEntity<String> login(@RequestBody User user){
         User user1 = userService.findByUserName(user.getName());
         if(user1!=null&&jwtUtil.validateToken(user.getPassword())){
-
+            String token = jwtUtil.generateToken(user.getName());
+            return ResponseEntity.ok(token);
         }
+        return ResponseEntity.badRequest().body("Invalid credentials");
+    }
+
+    @PostMapping("/private")
+    @Secured("ROLE_USER")
+    public ResponseEntity<String> adminLogic(@RequestBody User user){
+        return ResponseEntity.ok("private");
     }
 }
