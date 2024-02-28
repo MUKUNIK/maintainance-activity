@@ -1,6 +1,5 @@
 package com.nikhil.maintainanceactivity.service;
 
-import com.nikhil.maintainanceactivity.model.*;
 import com.nikhil.maintainanceactivity.model.User;
 import com.nikhil.maintainanceactivity.repo.*;
 import org.springframework.beans.factory.annotation.*;
@@ -22,14 +21,14 @@ public class UserService {
         return HttpStatus.OK;
     }
 
-    public User findByUserName(String userName){
-        return userRepository.findByName(userName);
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
-    public UserDetails loadByUserName(String userName) throws UsernameNotFoundException{
-        User user = userRepository.findByName(userName);
+    public UserDetails loadByEmail(String email) throws UsernameNotFoundException{
+        User user = userRepository.findByEmail(email);
         if(user==null){
-            throw  new UsernameNotFoundException("User not found: "+userName);
+            throw  new UsernameNotFoundException("User not found: "+email);
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getName(), user.getPassword(), new ArrayList<>()

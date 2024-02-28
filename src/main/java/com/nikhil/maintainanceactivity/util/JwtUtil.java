@@ -13,9 +13,9 @@ public class JwtUtil {
     @Value("${jwt.expire}")
     private long expriration;
 
-    public String generateToken(String userName){
+    public String generateToken(String email){
         return Jwts.builder()
-                .setSubject(userName)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+expriration))
                 .signWith(SignatureAlgorithm.HS256,secret)

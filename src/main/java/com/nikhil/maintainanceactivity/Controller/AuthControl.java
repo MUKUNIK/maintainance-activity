@@ -1,5 +1,6 @@
 package com.nikhil.maintainanceactivity.Controller;
 
+import com.nikhil.maintainanceactivity.dto.*;
 import com.nikhil.maintainanceactivity.model.*;
 import com.nikhil.maintainanceactivity.service.*;
 import com.nikhil.maintainanceactivity.util.*;
@@ -9,8 +10,8 @@ import org.springframework.security.access.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
-public class RestControl {
+@RequestMapping("/auth")
+public class AuthControl {
     @Autowired
     UserService userService;
     @Autowired
@@ -23,10 +24,10 @@ public class RestControl {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user){
-        User user1 = userService.findByUserName(user.getName());
+    public ResponseEntity<String> login(@RequestBody UserDto user){
+        User user1 = userService.findByEmail(user.getEmail());
         if(user1!=null&&jwtUtil.validateToken(user.getPassword())){
-            String token = jwtUtil.generateToken(user.getName());
+            String token = jwtUtil.generateToken(user.getEmail());
             return ResponseEntity.ok(token);
         }
         return ResponseEntity.badRequest().body("Invalid credentials");

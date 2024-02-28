@@ -1,7 +1,9 @@
 package com.nikhil.maintainanceactivity.dto;
 
-import java.sql.*;
+import lombok.*;
 
+import java.sql.*;
+@Data
 public class MaintainActDto {
     private String type;
     private Timestamp startTime;
